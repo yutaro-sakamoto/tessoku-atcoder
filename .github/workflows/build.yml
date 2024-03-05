@@ -1,0 +1,25 @@
+name: Builds
+
+on:
+  pull_request:
+    types: [opened, reopened, review_requested, synchronize]
+  push:
+
+permissions: read-all
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout tree
+        uses: actions/checkout@v4
+
+      - name: Set-up OCaml
+        uses: ocaml/setup-ocaml@v2
+        with:
+          ocaml-compiler: 5.0
+
+      - name: Compile programs
+        working-directory: ./src
+        run: ocamlopt *.ml
